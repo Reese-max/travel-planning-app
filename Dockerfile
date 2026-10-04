@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # Node builder
-FROM node:22 AS build
+FROM node:22-bookworm-slim AS build
 WORKDIR /app
 COPY src/package*.json ./
 RUN --mount=type=secret,id=proxy_ca \

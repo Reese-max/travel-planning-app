@@ -93,7 +93,10 @@ def main():
             assert b"<html" in request("GET", "/").lower()
             receipt["checks"][current] = "PASS"
             current = "register_user"
-            token = json.loads(request("POST", "/api/auth/register", {"username": project, "password": secrets.token_urlsafe(32)}))["access_token"]
+            # The application's username limit is 19 characters; Compose
+            # project names use a longer prefix and cannot serve as usernames.
+            username = "smoke-" + secrets.token_hex(6)
+            token = json.loads(request("POST", "/api/auth/register", {"username": username, "password": secrets.token_urlsafe(32)}))["access_token"]
             receipt["checks"][current] = "PASS"
             current = "create_trip"
             name = project + " fixture"
